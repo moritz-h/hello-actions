@@ -13,6 +13,7 @@ jobs:
           gh pr checkout ${{ github.event.issue.number }}
           clang-format-12 --version
           clang-format-12 -i main.cpp
-          git diff --exit-code
+          git commit -m "Run clang-format."
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
