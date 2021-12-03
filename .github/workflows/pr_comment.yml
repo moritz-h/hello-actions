@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Run clang-format
+        run: |
           git config user.email "test@example.com"
           git config user.name "clang-format"
           gh pr checkout ${{ github.event.issue.number }}

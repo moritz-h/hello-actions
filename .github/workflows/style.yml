@@ -20,3 +20,14 @@ jobs:
           clang-format-12 --version
           clang-format-12 -i main.cpp
           git diff --exit-code
+      - name: Comment
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Style error!'
+            })
