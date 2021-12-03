@@ -13,12 +13,20 @@ jobs:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
       - name: Run clang-format
         run: |
-          git config user.email "test@example.com"
-          git config user.name "clang-format"
           gh pr checkout ${{ github.event.issue.number }}
+      - name: Run clang-format
+        run: |
           clang-format-12 --version
           clang-format-12 -i main.cpp
-          git commit -am "Run clang-format."
-          git push
+      - name: Commit
+        run: |
+          if ! git diff --quiet --exit-code; then
+            git config user.email "test@example.com"
+            git config user.name "clang-format"
+            git commit -am "Run clang-format."
+            git push
+          else
+            echo "Nothing to do!"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -16,7 +16,7 @@ jobs:
         run: |
           clang-format-12 --version
           clang-format-12 -i main.cpp
-          git diff --exit-code
+          git diff --exit-code --color
       - name: Comment
         if: failure() && github.event_name == 'pull_request'
         uses: actions/github-script@v5
