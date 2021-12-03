@@ -10,6 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
+          git config user.email "test@example.com"
+          git config user.name "clang-format"
           gh pr checkout ${{ github.event.issue.number }}
           clang-format-12 --version
           clang-format-12 -i main.cpp
