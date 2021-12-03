@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          persist-credentials: false
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
       - name: Run clang-format
         run: |
           git config user.email "test@example.com"
@@ -20,5 +20,3 @@ jobs:
           clang-format-12 -i main.cpp
           git commit -am "Run clang-format."
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
