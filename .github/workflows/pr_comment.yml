@@ -5,7 +5,7 @@ on: issue_comment
 jobs:
   pr_commented:
     name: PR comment
-    if: ${{ github.event.issue.pull_request }} && ${{ github.event.comment.body == 'Format'}}
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/format' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
