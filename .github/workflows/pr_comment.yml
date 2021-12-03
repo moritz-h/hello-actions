@@ -20,3 +20,5 @@ jobs:
           clang-format-12 -i main.cpp
           git commit -am "Run clang-format."
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
