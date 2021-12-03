@@ -1,0 +1,22 @@
+name: Style
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check format
+        run: |
+          clang-format-12 --version
+          clang-format-12 -i main.cpp
+          git diff --exit-code
