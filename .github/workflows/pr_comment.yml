@@ -11,5 +11,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           echo "Comment on PR #${{ github.event.issue.number }}"
+          gh pr checkout ${{ github.event.issue.number }}
           ls -alF
           pwd
