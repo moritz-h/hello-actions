@@ -1,12 +1,12 @@
-name: Fix-Style
+name: Style-Fix
 
 on: issue_comment
 
 jobs:
-  pr_commented:
-    name: PR comment
+  style_fix:
+    name: Style-Fix
     if: ${{ github.event.issue.pull_request && github.event.comment.body == '/format' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
