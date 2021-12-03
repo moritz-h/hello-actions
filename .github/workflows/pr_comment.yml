@@ -1,3 +1,5 @@
+name: PR-Comment
+
 on: issue_comment
 
 jobs:
@@ -8,3 +10,5 @@ jobs:
     steps:
       - run: |
           echo "Comment on PR #${{ github.event.issue.number }}"
+          ls -alF
+          pwd
