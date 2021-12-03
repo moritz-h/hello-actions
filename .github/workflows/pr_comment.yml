@@ -1,11 +1,11 @@
-name: PR-Comment
+name: Fix-Style
 
 on: issue_comment
 
 jobs:
   pr_commented:
     name: PR comment
-    if: ${{ github.event.issue.pull_request }}
+    if: ${{ github.event.issue.pull_request }} && ${{ github.event.comment.body == 'Format'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
