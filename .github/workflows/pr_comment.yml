@@ -14,3 +14,5 @@ jobs:
           gh pr checkout ${{ github.event.issue.number }}
           ls -alF
           pwd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
