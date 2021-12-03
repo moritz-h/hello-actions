@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          echo "Comment on PR #${{ github.event.issue.number }}"
           gh pr checkout ${{ github.event.issue.number }}
-          ls -alF
-          pwd
+          clang-format-12 --version
+          clang-format-12 -i main.cpp
+          git diff --exit-code
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
