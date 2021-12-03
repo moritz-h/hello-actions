@@ -11,7 +11,7 @@ env:
 
 jobs:
   linux:
-    name: Linux
+    name: Linux-Build
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
   windows:
-    name: Windows
+    name: Windows-Build
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
