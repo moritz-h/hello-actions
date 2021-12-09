@@ -18,19 +18,22 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            return {repo: pr.data.head.repo.full_name, ref: pr.data.head.ref};
+            core.setOutput('REPO', pr.data.head.repo.full_name);
+            core.setOutput('REF', pr.data.head.ref);
       - name: Get result
-        run: echo "${{steps.pr-info.outputs.result}}"
+        run: |
+          echo "${{steps.pr-info.outputs.REPO}}"
+          echo "${{steps.pr-info.outputs.REF}}"
       - uses: actions/checkout@v2
         with:
           path: hello-actions
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-      #- uses: actions/checkout@v2
-      #  with:
-      #    repository: a
-      #    ref: b
-      #    path: pr
-      #    ssh-key: ${{ secrets.DEPLOY_KEY }}
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{steps.pr-info.outputs.REPO}}
+          ref: ${{steps.pr-info.outputs.REF}}
+          path: pr
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
       - name: Fix style
         # WARNING: This job runs with repo permissions! Do not execute any code from PR branch!
         run: |
