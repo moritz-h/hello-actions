@@ -1,0 +1,49 @@
+name: Style-Check-Comment
+
+on:
+  workflow_run:
+    workflows:
+      - Style-Check
+    types:
+      - completed
+
+jobs:
+  style_check_comment:
+    name: Style-Check-Comment
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: artifacts
+
+      - name: Comment
+        uses: actions/github-script@v5
+        with:
+          script: |
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: ${{github.event.workflow_run.id }},
+            });
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr"
+            })[0];
+            var download = await github.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: matchArtifact.id,
+              archive_format: 'zip',
+            });
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'ClangFormat found [formatting issues](https://github.com/'
+                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')! '
+                    + 'Comment `/format`, to automatically commit the suggested changes.'
+            })

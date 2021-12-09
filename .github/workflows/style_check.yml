@@ -17,16 +17,13 @@ jobs:
       - name: Check diff
         run: |
           git diff --exit-code --color
-      - name: Comment
-        if: failure() && github.event_name == 'pull_request'
-        uses: actions/github-script@v5
+      - name: Save PR number
+        if: always()
+        run: |
+          mkdir -p ./pr
+          echo ${{ github.event.number }} > ./pr/NR
+      - uses: actions/upload-artifact@v2
+        if: always()
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'ClangFormat found [formatting issues](https://github.com/'
-                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')! '
-                    + 'Comment `/format`, to automatically commit the suggested changes.'
-            })
+          name: pr
+          path: pr/
