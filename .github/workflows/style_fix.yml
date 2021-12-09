@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Get PR
+        id: pr-info
         uses: actions/github-script@v5
         with:
           script: |
@@ -17,12 +18,19 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            console.log(pr);
-            console.log(pr.data.head.repo);
+            return {repo: pr.data.head.repo.full_name, ref: pr.data.head.ref};
+      - name: Get result
+        run: echo "${{steps.pr-info.outputs.result}}"
       - uses: actions/checkout@v2
         with:
           path: hello-actions
           ssh-key: ${{ secrets.DEPLOY_KEY }}
+      #- uses: actions/checkout@v2
+      #  with:
+      #    repository: a
+      #    ref: b
+      #    path: pr
+      #    ssh-key: ${{ secrets.DEPLOY_KEY }}
       - name: Fix style
         # WARNING: This job runs with repo permissions! Do not execute any code from PR branch!
         run: |
