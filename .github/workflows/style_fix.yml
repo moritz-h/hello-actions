@@ -12,12 +12,11 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const pr = github.rest.pulls.get({
+            const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
             })
-            console.log(context);
             console.log(pr);
       - uses: actions/checkout@v2
         with:
