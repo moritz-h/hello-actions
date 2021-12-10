@@ -19,7 +19,6 @@ jobs:
           script: |
             console.log(github.event)
             console.log(context)
-            # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 
             var artifact = await github.actions.listWorkflowRunArtifacts({
               owner: context.repo.owner,
