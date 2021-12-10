@@ -17,21 +17,23 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            console.log(github.event)
-            console.log(context)
-
-            var artifact = await github.actions.listWorkflowRunArtifacts({
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
               owner: context.repo.owner,
               repo: context.repo.repo,
               run_id: ${{github.event.workflow_run.id }},
-            }).data.artifacts.filter((artifact) => artifact.name == "pr")[0];
-            console.log(artifact)
+            });
+            console.log(artifacts);
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "pr"
+            })[0];
+            console.log(matchArtifact);
             var download = await github.actions.downloadArtifact({
               owner: context.repo.owner,
               repo: context.repo.repo,
               artifact_id: matchArtifact.id,
               archive_format: 'zip',
             });
+            console.log(download);
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
