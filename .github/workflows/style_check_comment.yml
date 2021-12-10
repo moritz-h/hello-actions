@@ -31,11 +31,11 @@ jobs:
             });
             console.log(download);
 
-            await github.rest.issues.createComment({
+            /*await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'ClangFormat found [formatting issues](https://github.com/'
                     + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')! '
                     + 'Comment `/format`, to automatically commit the suggested changes.'
-            })
+            })*/
