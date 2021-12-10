@@ -59,5 +59,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Format failed!'
+              body: 'Formatting failed! For details, please check the [log](https://github.com/'
+                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')!'
             })
