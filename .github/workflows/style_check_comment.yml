@@ -13,7 +13,8 @@ jobs:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-20.04
     steps:
-      - name: Comment
+      # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+      - name: Download artifact
         uses: actions/github-script@v5
         with:
           script: |
@@ -29,13 +30,20 @@ jobs:
               artifact_id: prArtifact.id,
               archive_format: 'zip',
             });
-            console.log(download);
-
-            /*await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+      - run unzip or.zip
+      - name: Comment
+        uses: actions/github-script@v5
+        with:
+          script: |
+            var fs = require('fs');
+            var pr_number = Number(fs.readFileSync('./NR'));
+            await github.rest.issues.createComment({
+              issue_number: pr_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'ClangFormat found [formatting issues](https://github.com/'
-                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')! '
+                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + ${{github.event.workflow_run.id }} + ')! '
                     + 'Comment `/format`, to automatically commit the suggested changes.'
-            })*/
+            })
