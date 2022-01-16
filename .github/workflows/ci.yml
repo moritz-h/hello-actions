@@ -16,9 +16,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Configure
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -S . -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{github.workspace}}/build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: exe
+          path: ${{github.workspace}}/build/HelloActions
 
   windows:
     name: Windows-Build
@@ -26,6 +30,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Configure
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -S . -B ${{github.workspace}}/build
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: exe
+          path: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/HelloActions.exe
