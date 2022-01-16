@@ -21,7 +21,7 @@ jobs:
         run: cmake --build ${{github.workspace}}/build
       - uses: actions/upload-artifact@v2
         with:
-          name: exe
+          name: Linux
           path: ${{github.workspace}}/build/HelloActions
 
   windows:
@@ -35,5 +35,5 @@ jobs:
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - uses: actions/upload-artifact@v2
         with:
-          name: exe
+          name: Windows
           path: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/HelloActions.exe
