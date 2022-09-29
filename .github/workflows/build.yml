@@ -28,3 +28,16 @@ jobs:
         with:
           name: Hello-Windows
           path: README.md
+
+  release:
+    name: Release
+    runs-on: ubuntu-20.04
+    needs: [linux, windows]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: Hello-Linux
+      - uses: actions/download-artifact@v3
+        with:
+          name: Hello-Windows
+      - run: ls -alF
