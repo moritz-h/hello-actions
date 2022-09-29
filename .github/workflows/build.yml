@@ -37,7 +37,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: Hello-Linux
+      - run: zip Hello-Linux.zip README.md
       - uses: actions/download-artifact@v3
         with:
           name: Hello-Windows
+      - run: zip Hello-Windows.zip README.md
       - run: ls -alF
