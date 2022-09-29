@@ -39,11 +39,11 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: Hello-Linux
-      - run: zip Hello-Linux.zip README.md
+      - run: zip -9 Hello-Linux.zip README.md
       - uses: actions/download-artifact@v3
         with:
           name: Hello-Windows
-      - run: zip Hello-Windows.zip README.md
+      - run: zip -9 Hello-Windows.zip README.md
       - run: ls -alF
       - name: Release
         uses: softprops/action-gh-release@v1
