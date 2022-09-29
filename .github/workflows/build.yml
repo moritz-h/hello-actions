@@ -43,3 +43,9 @@ jobs:
           name: Hello-Windows
       - run: zip Hello-Windows.zip README.md
       - run: ls -alF
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Hello-Linux.zip
+            Hello-Windows.zip
