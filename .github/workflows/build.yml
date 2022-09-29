@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches: [ tag-release ]
+
+jobs:
+  linux:
+    name: Linux-Build
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: echo "Hello-Linux" >> README.md
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Hello-Linux
+          path: README.md
+
+  windows:
+    name: Windows-Build
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: echo "Hello-Windows" >> README.md
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Hello-Windows
+          path: README.md
