@@ -1,16 +1,20 @@
 name: Style-Fix
 
-on: issue_comment
+on:
+  issue_comment:
+    types: [created, edited]
 
 jobs:
   style_fix:
     name: Style-Fix
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/format' }}
-    runs-on: ubuntu-20.04
+    # if: ${{ github.event.issue.pull_request && github.event.comment.body == '/format' }}
+    runs-on: ubuntu-22.04
     steps:
+      - name: Info
+        run: echo "${{ toJson(github.event) }}"
       - name: Get PR Info
         id: pr-info
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const pr = await github.rest.pulls.get({
@@ -20,45 +24,3 @@ jobs:
             })
             core.setOutput('REPO', pr.data.head.repo.full_name);
             core.setOutput('REF', pr.data.head.ref);
-      # Checkout master
-      - uses: actions/checkout@v2
-        with:
-          path: master
-          token: ${{ secrets.PAT }}
-      # Checkout PR repo/branch
-      - uses: actions/checkout@v2
-        with:
-          repository: ${{steps.pr-info.outputs.REPO}}
-          ref: ${{steps.pr-info.outputs.REF}}
-          path: pr
-          token: ${{ secrets.PAT }}
-      - name: Fix style
-        # WARNING: This job runs with repo permissions! Do not execute any code from PR branch!
-        run: |
-          # Run style fix with script from master branch
-          cd pr
-          ../master/.ci/run_clang_format.sh
-
-          # Commit changes
-          if ! git diff --quiet --exit-code; then
-            git config user.email "test@example.com"
-            git config user.name "clang-format"
-            git commit -am "Run clang-format."
-            git push
-          else
-            echo "Nothing to commit!"
-          fi
-        #env:
-        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Comment
-        if: failure()
-        uses: actions/github-script@v5
-        with:
-          script: |
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Formatting failed! For details, please check the [log](https://github.com/'
-                    + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')!'
-            })
