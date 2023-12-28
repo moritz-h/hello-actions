@@ -1,7 +1,11 @@
-#include <iostream>
+#include <pybind11/pybind11.h>
 
-int main() {
-    std::cout << "Hello, Actions!" << std::endl;
-    std::cout << "Test" << std::endl;
-    return 0;
+namespace py = pybind11;
+
+int add(int i, int j) {
+    return i + j;
+}
+
+PYBIND11_MODULE(python_test, m) {
+    m.def("add", &add, "A function that adds two numbers");
 }
