@@ -3,9 +3,11 @@ requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "python-test"
+name = "moritz-h-hello-actions"
 version = "0.1.0"
-requires-python = ">=3.7"
+description = "A python test package"
+readme = "README.md"
+requires-python = ">=3.9"
 
 [tool.scikit-build]
 cmake.minimum-version = "3.27.0"
