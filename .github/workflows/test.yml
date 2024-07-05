@@ -19,9 +19,19 @@ jobs:
     container:
       image: ghcr.io/unistuttgart-visus/megamol_ci_ubuntu:master
     steps:
-      - name: test
+      - name: setup
         run: |
           echo 'github.workspace : ${{ github.workspace }}'
           echo "GITHUB_WORKSPACE : $GITHUB_WORKSPACE"
           echo 'runner.workspace : ${{ runner.workspace }}'
           echo "RUNNER_WORKSPACE : $RUNNER_WORKSPACE"
+          apt update
+          apt install tree
+          pwd
+          tree -a
+      - name: test
+        run: |
+          echo "###########"
+          tree -a /__w
+          echo "###########"
+          tree -a /home
