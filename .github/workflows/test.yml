@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  push:
+    branches: [ container ]
+
+jobs:
+  runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: |
+          echo 'github.workspace : ${{ github.workspace }}'
+          echo "GITHUB_WORKSPACE : $GITHUB_WORKSPACE"
+          echo 'runner.workspace : ${{ runner.workspace }}'
+          echo "RUNNER_WORKSPACE : $RUNNER_WORKSPACE"
+  container:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/unistuttgart-visus/megamol_ci_ubuntu:master
+    steps:
+      - name: test
+        run: |
+          echo 'github.workspace : ${{ github.workspace }}'
+          echo "GITHUB_WORKSPACE : $GITHUB_WORKSPACE"
+          echo 'runner.workspace : ${{ runner.workspace }}'
+          echo "RUNNER_WORKSPACE : $RUNNER_WORKSPACE"
