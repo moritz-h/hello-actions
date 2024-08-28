@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  push:
+    branches: [ '*' ]
+  workflow_dispatch:
+
+jobs:
+  a:
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Hello
+        run: |
+          echo Hello
+        shell: bash
+  b:
+    if: ${{ always() }}
+    needs: a
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Hello
+        run: |
+          echo Hello
+        shell: bash
