@@ -15,7 +15,7 @@ jobs:
           echo Hello
         shell: bash
   b:
-    if: ${{ always() }}
+    if: ${{ !cancelled() }}
     needs: a
     runs-on: ubuntu-24.04
     steps:
