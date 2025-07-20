@@ -13,6 +13,10 @@ jobs:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-22.04
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
       # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
       - name: Download artifact
         uses: actions/github-script@v6
